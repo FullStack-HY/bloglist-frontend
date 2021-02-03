@@ -1,31 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      blogs: []
-    }
-  }
+const App = () => {
+  const [blogs, setBlogs] = useState([])
 
-  componentDidMount() {
+  useEffect(() => {
     blogService.getAll().then(blogs =>
-      this.setState({ blogs })
-    )
-  } 
+      setBlogs( blogs )
+    )  
+  }, [])
 
-  render() {
-    return (
-      <div>
-        <h2>blogs</h2>
-        {this.state.blogs.map(blog => 
-          <Blog key={blog._id} blog={blog}/>
-        )}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h2>blogs</h2>
+      {blogs.map(blog =>
+        <Blog key={blog.id} blog={blog} />
+      )}
+    </div>
+  )
 }
 
 export default App
